@@ -27,11 +27,17 @@ local on_attach = function()
     vim.keymap.set('n', "<leader>ca", vim.lsp.buf.code_action, { buffer = 0 })
 end
 
+require 'lspconfig'.rust_analyzer.setup {
+    on_attach = on_attach,
+}
+
 require 'lspconfig'.pyright.setup {
     on_attach = on_attach,
 }
+
 require 'lspconfig'.clangd.setup({
     on_attach = on_attach,
+    --cmd = { 'clangd', '--log=verbose' },
     cmd = { 'clangd', '--log=verbose' },
 })
 require 'lspconfig'.lua_ls.setup {
@@ -48,6 +54,8 @@ require 'lspconfig'.lua_ls.setup {
         },
     },
 }
+
+
 
 
 
