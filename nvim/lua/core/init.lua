@@ -1,9 +1,28 @@
+require "core.lazy"
+
+local core = {}
+
+local dependencies = {
+    "core.keymaps",
+    "core.statusline",
+    "core.options",
+    "core.autocommands",
+}
+
+function core.load_deps()
+    for _, module in ipairs(dependencies) do
+        require(module)
+    end
+end
+
+function core.reload()
+    for _, module in ipairs(dependencies) do
+        package.loaded[module] = nil
+    end
+    core.load_deps()
+end
+
 -- https://github.com/VonHeikemen/nvim-starter
-require("core.lazy")
-require("core.keymaps")
-require("core.statusline")
-require("core.options")
-require("core.autocommands")
 
 require "nvim-treesitter".setup()
 -- treesitter config
@@ -37,8 +56,11 @@ require 'lspconfig'.pyright.setup {
 
 require 'lspconfig'.clangd.setup({
     on_attach = on_attach,
-    --cmd = { 'clangd', '--log=verbose' },
-    cmd = { 'clangd', '--log=verbose' },
+    cmd = { 
+        'clangd',
+        '--log=verbose',
+        '--pretty',
+    },
 })
 require 'lspconfig'.lua_ls.setup {
     cmd = { "lua-language-server" },
@@ -114,3 +136,5 @@ end
 dap.listeners.before.event_exited.dapui_config = function()
     dapui.close()
 end
+
+return core

@@ -30,6 +30,8 @@ vim.keymap.set('n', '<leader>sv', '<C-w>s', { desc = 'split vertically' })
 vim.keymap.set('n', '<leader>sh', '<C-w>v', { desc = 'split horizontally' })
 vim.keymap.set('n', '<leader>se', '<C-w>=', { desc = 'equal size split' })
 vim.keymap.set('n', '<leader>sx', ':close<CR>', { desc = 'close split' })
+vim.keymap.set('n', '<leader>sf', ':tab split<CR>', { desc = 'focus split' })
+vim.keymap.set('n', '<leader>su', ':w<CR> :tabc<CR>', { desc = 'focus split' })
 
 vim.api.nvim_set_keymap('n', '<S-Up>', ':resize +2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<S-Down>', ':resize -2<CR>', opts)
@@ -63,7 +65,22 @@ vim.keymap.set('v', '>', '>gv', opts)
 vim.keymap.set('v', '<', '<gv', opts)
 vim.keymap.set('v', 'p', '\"_dP', opts)
 
+-- changing directory
+local function lcdh()
+    local command = ':lcd ' .. vim.fn.expand('%:p:h')
+    vim.cmd(command)
+    print("local nvim directory is" .. vim.fn.getcwd())
+end
+vim.keymap.set('n', '<leader>lcdh', lcdh, { noremap = true, desc = 'local cd to current file'})
 
+local function cdh()
+    local command = ':cd ' .. vim.fn.expand('%:p:h')
+    vim.cmd(command)
+    print("global nvim directory is" .. vim.fn.getcwd())
+end
+vim.keymap.set('n', '<leader>cdh', cdh, { noremap = true, desc = 'global cd to current file'})
+
+-- telescope
 local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, {})

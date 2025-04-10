@@ -13,7 +13,7 @@ vim.g.font = "NONE"
 
 vim.opt.cursorline = true
 vim.opt.breakindent = true
-vim.opt.completeopt = "menu,menuone,popup,fuzzy,noselect"
+--vim.opt.completeopt = "menu,menuone,popup,fuzzy,noselect"
 
 vim.opt.mouse = 'a'
 

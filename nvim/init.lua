@@ -2,7 +2,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 --vim.g.have_nerd_font = true
 
-require("core")
+local core = require("core")
 vim.cmd("colorscheme kanagawa")
 
 --[[
@@ -11,3 +11,13 @@ vim.cmd("colorscheme kanagawa")
     - :help lua-guide
     - (or HTML version): https://neovim.io/doc/user/lua-guide.html
 --]]
+
+local function reload()
+    print "reloading"
+    package.loaded["core"] = nil
+    core = require("core")
+    core.reload()
+end
+
+vim.keymap.set('n', "<leader>rl", reload)
+core.load_deps()
