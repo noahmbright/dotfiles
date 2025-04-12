@@ -3,6 +3,7 @@ vim.g.maplocalleader = ' '
 --vim.g.have_nerd_font = true
 
 local core = require("core")
+local plugins = require("plugins")
 vim.cmd("colorscheme kanagawa")
 
 --[[
