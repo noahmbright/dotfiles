@@ -1,25 +1,12 @@
--- https://github.com/VonHeikemen/nvim-starter
 require "core.lazy"
-local core = {}
+local M = {}
 
-local dependencies = {
-    "core.keymaps",
-    "core.statusline",
-    "core.options",
+M.dependencies = {
     "core.autocommands",
+    "core.git",
+    "core.keymaps",
+    "core.options",
+    "core.statusline",
 }
 
-function core.load_deps()
-    for _, module in ipairs(dependencies) do
-        require(module)
-    end
-end
-
-function core.reload()
-    for _, module in ipairs(dependencies) do
-        package.loaded[module] = nil
-    end
-    core.load_deps()
-end
-
-return core
+return M

@@ -69,38 +69,13 @@ vim.keymap.set('v', 'p', '\"_dP', opts)
 local function lcdh()
     local command = ':lcd ' .. vim.fn.expand('%:p:h')
     vim.cmd(command)
-    print("local nvim directory is" .. vim.fn.getcwd())
+    print("local nvim directory is " .. vim.fn.getcwd())
 end
-vim.keymap.set('n', '<leader>lcdh', lcdh, { noremap = true, desc = 'local cd to current file'})
+vim.keymap.set('n', '<leader>lcdh', lcdh, { noremap = true, desc = 'local cd to current file' })
 
 local function cdh()
     local command = ':cd ' .. vim.fn.expand('%:p:h')
     vim.cmd(command)
-    print("global nvim directory is" .. vim.fn.getcwd())
+    print("global nvim directory is " .. vim.fn.getcwd())
 end
-vim.keymap.set('n', '<leader>cdh', cdh, { noremap = true, desc = 'global cd to current file'})
-
--- telescope
-local telescope_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fw', telescope_builtin.grep_string, {})
-vim.keymap.set('n', '<leader>fb', telescope_builtin.current_buffer_fuzzy_find, {})
-vim.keymap.set('n', '<leader><Space>', telescope_builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', telescope_builtin.help_tags, {})
-vim.keymap.set('n', '<leader>fd', telescope_builtin.diagnostics, {})
-vim.keymap.set('n', '<leader>ds', telescope_builtin.lsp_document_symbols, {})
-vim.keymap.set('n', '<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols, {})
-vim.keymap.set('n', '<leader>fm', telescope_builtin.man_pages, {})
---To look at what default configuration options exist please read: :help telescope.setup().
---For picker specific opts please read: :help telescope.builtin.
-
---nvim dap
-vim.keymap.set('n', '<leader>b', ":lua require('dap').toggle_breakpoint()<CR>", { silent = true })
-vim.keymap.set('n', '<leader>B', ":lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition '))<CR>",
-    { silent = true })
-vim.keymap.set('n', '<F1>', ":lua require('dap').continue()<CR>", { silent = true })
-vim.keymap.set('n', '<F2>', ":lua require('dap').step_into()<CR>", { silent = true })
-vim.keymap.set('n', '<F3>', ":lua require('dap').step_over()<CR>", { silent = true })
-vim.keymap.set('n', '<F4>', ":lua require('dap').step_out()<CR>", { silent = true })
-vim.keymap.set('n', '<F5>', ":lua require('dap').repl.open()<CR>", { silent = true })
+vim.keymap.set('n', '<leader>cdh', cdh, { noremap = true, desc = 'global cd to current file' })
