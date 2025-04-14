@@ -41,8 +41,15 @@ return {
 
         dap.configurations.cpp = dap.configurations.c
 
-
-        require "dapui".setup()
+        --nvim dap
+        vim.keymap.set('n', '<leader>b', ":lua require('dap').toggle_breakpoint()<CR>", { silent = true })
+        vim.keymap.set('n', '<leader>B', ":lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition '))<CR>",
+            { silent = true })
+        vim.keymap.set('n', '<F1>', ":lua require('dap').continue()<CR>", { silent = true })
+        vim.keymap.set('n', '<F2>', ":lua require('dap').step_into()<CR>", { silent = true })
+        vim.keymap.set('n', '<F3>', ":lua require('dap').step_over()<CR>", { silent = true })
+        vim.keymap.set('n', '<F4>', ":lua require('dap').step_out()<CR>", { silent = true })
+        vim.keymap.set('n', '<F5>', ":lua require('dap').repl.open()<CR>", { silent = true })
 
         dap.listeners.before.attach.dapui_config = function()
             dapui.open()

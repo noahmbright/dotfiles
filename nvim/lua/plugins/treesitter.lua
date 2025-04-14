@@ -9,7 +9,7 @@ return {
     config = function()
         local config = require "nvim-treesitter.configs"
         config.setup({
-            ensure_installed = { 'lua', 'c', 'cpp', 'python', 'cmake', 'glsl', 'rust', 'haskell', 'vim', 'llvm'},--, 'vimdoc', 'query' }, -- read lua
+            ensure_installed = { 'lua', 'c', 'cpp', 'python', 'cmake', 'glsl', 'rust', 'haskell', 'vim', 'llvm' }, --, 'vimdoc', 'query' }, -- read lua
             sync_install = false,
             auto_install = false,
             highlight = { enable = true },

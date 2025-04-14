@@ -1,24 +1,41 @@
+-- https://github.com/VonHeikemen/nvim-starter
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
---vim.g.have_nerd_font = true
+vim.g.have_nerd_font = true
 
 local core = require("core")
-local plugins = require("plugins")
-vim.cmd("colorscheme kanagawa")
+require("plugins")
 
---[[
-    After understanding a bit more about Lua, you can use `:help lua-guide` as a
-    reference for how Neovim integrates Lua.
-    - :help lua-guide
-    - (or HTML version): https://neovim.io/doc/user/lua-guide.html
---]]
+vim.cmd("colorscheme kanagawa")
+require("core.statusline").set_statusline_highlights()
+_G.cached_mode = string.format(' Normal ')
+
+local function load_dependencies(dependencies)
+    for _, module in ipairs(dependencies) do
+        require(module)
+    end
+end
+
+local function reload_dependencies(dependencies)
+    for _, module in ipairs(dependencies) do
+        package.loaded[module] = nil
+    end
+    load_dependencies(dependencies)
+end
 
 local function reload()
-    print "reloading"
+    if not core.dependencies then
+        print "core.dependencies is nil, not reloading"
+        return
+    end
+
     package.loaded["core"] = nil
+    package.loaded["plugins"] = nil
     core = require("core")
-    core.reload()
+    require("plugins")
+    reload_dependencies(core.dependencies)
+    print "reloaded config"
 end
 
 vim.keymap.set('n', "<leader>rl", reload)
-core.load_deps()
+load_dependencies(core.dependencies)
