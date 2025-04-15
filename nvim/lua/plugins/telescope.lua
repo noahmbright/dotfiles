@@ -25,6 +25,9 @@ return {
             pickers = {
                 find_files = {
                     theme = 'ivy'
+                },
+                live_grep = {
+                    theme = 'ivy'
                 }
             }
         }
@@ -51,6 +54,33 @@ return {
                 cwd = vim.fn.stdpath("config")
             }
         end)
+
+        -- grep
+        vim.keymap.set('n', '<leader>gh', function()
+                telescope_builtin.live_grep({
+                    prompt_title = 'Grep Headers',
+                    additional_args = {
+                        '--glob=*.h'
+                    }
+                })
+            end,
+            { desc = 'grep headers' }
+        )
+
+        vim.keymap.set('n', '<leader>gi', function()
+                telescope_builtin.live_grep({
+                    prompt_title = 'Grep Implementation',
+                    additional_args = {
+                        '--glob=*.c',
+                        '--glob=*.cpp',
+                        '--glob=*.cxx',
+                        '--glob=*.cc',
+                    }
+                })
+            end,
+            { desc = 'grep implementation' }
+        )
+
 
         --To look at what default configuration options exist please read: :help telescope.setup().
         --For picker specific opts please read: :help telescope.builtin.
