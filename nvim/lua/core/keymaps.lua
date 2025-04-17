@@ -38,6 +38,8 @@ vim.api.nvim_set_keymap('n', '<S-Down>', ':resize -2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<S-Left>', ':vertical resize +2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<S-Right>', ':vertical resize -2<CR>', opts)
 
+vim.keymap.set('n', '<leader>bd', ':bp | sp | bn | bd<CR>', { desc = "delete buffer split w/o closing split" })
+
 vim.keymap.set('n', 'x', '\"_x')
 
 vim.keymap.set('n', '<leader>+', '<C-a>', { desc = 'increment number' })

@@ -56,6 +56,38 @@ return {
         end)
 
         -- grep
+        vim.keymap.set('n', '<leader>guw', function()
+                telescope_builtin.live_grep({
+                    default_text = vim.fn.expand("<cword>"),
+                })
+            end,
+            { desc = 'grep under word' }
+        )
+
+        vim.keymap.set('n', '<leader>gp', function()
+                telescope_builtin.live_grep({
+                    prompt_title = 'Grep Python',
+                    additional_args = {
+                        '--glob=*.py'
+                    }
+                })
+            end,
+            { desc = 'grep python' }
+        )
+
+        vim.keymap.set('n', '<leader>gup', function()
+                telescope_builtin.live_grep({
+                    prompt_title = 'Grep Python',
+                    default_text = vim.fn.expand("<cword>"),
+                    additional_args = {
+                        '--glob=*.py'
+                    }
+                })
+            end,
+            { desc = 'grep under python' }
+        )
+
+
         vim.keymap.set('n', '<leader>gh', function()
                 telescope_builtin.live_grep({
                     prompt_title = 'Grep Headers',
@@ -65,6 +97,18 @@ return {
                 })
             end,
             { desc = 'grep headers' }
+        )
+
+        vim.keymap.set('n', '<leader>guh', function()
+                telescope_builtin.live_grep({
+                    default_text = vim.fn.expand("<cword>"),
+                    prompt_title = 'Grep Headers',
+                    additional_args = {
+                        '--glob=*.h'
+                    }
+                })
+            end,
+            { desc = 'grep under headers' }
         )
 
         vim.keymap.set('n', '<leader>gi', function()
@@ -80,6 +124,22 @@ return {
             end,
             { desc = 'grep implementation' }
         )
+
+        vim.keymap.set('n', '<leader>gui', function()
+                telescope_builtin.live_grep({
+                    default_text = vim.fn.expand("<cword>"),
+                    prompt_title = 'Grep Implementation',
+                    additional_args = {
+                        '--glob=*.c',
+                        '--glob=*.cpp',
+                        '--glob=*.cxx',
+                        '--glob=*.cc',
+                    }
+                })
+            end,
+            { desc = 'grep under implementation' }
+        )
+
 
 
         --To look at what default configuration options exist please read: :help telescope.setup().
