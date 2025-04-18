@@ -21,14 +21,16 @@ return {
     config = function()
         require('telescope').load_extension('fzf')
 
+        local theme_settings = {
+            theme = 'ivy',
+            layout_config = { height = 0.9 },
+        }
+
         require('telescope').setup {
             pickers = {
-                find_files = {
-                    theme = 'ivy'
-                },
-                live_grep = {
-                    theme = 'ivy'
-                }
+                find_files = theme_settings,
+                live_grep = theme_settings,
+                buffers = theme_settings,
             }
         }
 
