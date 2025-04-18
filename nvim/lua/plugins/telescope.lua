@@ -31,6 +31,7 @@ return {
                 find_files = theme_settings,
                 live_grep = theme_settings,
                 buffers = theme_settings,
+                keymaps = theme_settings,
             }
         }
 
@@ -46,6 +47,7 @@ return {
         vim.keymap.set('n', '<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols, {})
         vim.keymap.set('n', '<leader>fp', telescope_builtin.man_pages, {})
         vim.keymap.set('n', '<leader>fm', telescope_builtin.marks, {})
+        vim.keymap.set('n', '<leader>fk', telescope_builtin.keymaps, {})
 
         vim.keymap.set('n', '<leader>ft', function()
             vim.cmd(":Telescope builtin")

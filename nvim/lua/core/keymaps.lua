@@ -81,3 +81,21 @@ local function cdh()
     print("global nvim directory is " .. vim.fn.getcwd())
 end
 vim.keymap.set('n', '<leader>cdh', cdh, { noremap = true, desc = 'global cd to current file' })
+
+vim.keymap.set('n', '<leader>lne',
+    function()
+        vim.opt.relativenumber = true
+        vim.opt.number = true
+    end
+    ,
+    { desc = 'enable line number' }
+)
+
+vim.keymap.set('n', '<leader>lnd',
+    function()
+        vim.opt.relativenumber = false
+        vim.opt.number = false
+    end
+    ,
+    { desc = 'disable line number' }
+)
