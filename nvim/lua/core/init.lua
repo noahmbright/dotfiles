@@ -7,6 +7,7 @@ M.dependencies = {
     "core.keymaps",
     "core.options",
     "core.statusline",
+    "core.testing",
 }
 
 return M
