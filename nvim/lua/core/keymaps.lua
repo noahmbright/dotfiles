@@ -99,3 +99,16 @@ vim.keymap.set('n', '<leader>lnd',
     ,
     { desc = 'disable line number' }
 )
+
+vim.keymap.set('n', '<leader>yb', '_v$%y', { desc = 'Yank Block on this line' })
+
+local num_scratch_buffers = 0
+vim.api.nvim_create_user_command('Scratch', function()
+        vim.cmd('enew')
+        vim.bo.buftype = 'nofile'
+        vim.bo.bufhidden = 'hide'
+        vim.bo.swapfile = false
+        vim.api.nvim_buf_set_name(0, 'scratch' .. num_scratch_buffers)
+        num_scratch_buffers = num_scratch_buffers + 1
+    end,
+    { desc = 'Open a new scratch buffer' })

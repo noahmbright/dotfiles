@@ -38,6 +38,8 @@ return {
         local telescope_builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader><Space>', telescope_builtin.buffers, {})
         vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, {})
+        vim.keymap.set('n', '<leader>fn', function() telescope_builtin.find_files({ cwd = '~/notes' }) end, {})
+        vim.keymap.set('n', '<leader>gn', function() telescope_builtin.live_grep({ cwd = '~/notes' }) end, {})
         vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, {})
         vim.keymap.set('n', '<leader>fs', telescope_builtin.grep_string, {})
         vim.keymap.set('n', '<leader>fb', telescope_builtin.current_buffer_fuzzy_find, {})
@@ -53,7 +55,7 @@ return {
             vim.cmd(":Telescope builtin")
         end, {})
 
-        vim.keymap.set('n', '<leader>fn', function()
+        vim.keymap.set('n', '<leader>fc', function()
             telescope_builtin.find_files {
                 cwd = vim.fn.stdpath("config")
             }

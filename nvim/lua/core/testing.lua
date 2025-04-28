@@ -51,6 +51,7 @@ local function toggle_test_terminal_window()
     else
         if not test_terminal_buffer_is_valid() then
             create_test_terminal_buffer()
+            return
         end
         if test_terminal_buffer_is_valid() then
             open_test_terminal_window()
@@ -61,7 +62,7 @@ local function toggle_test_terminal_window()
 end
 
 local function send_test_terminal_command(cmd)
-    if not test_terminal_window_is_valid() or not test_terminal_window_is_valid() then
+    if not test_terminal_buffer_is_valid() or not test_terminal_window_is_valid() then
         toggle_test_terminal_window()
     end
 
