@@ -101,6 +101,12 @@ return {
             '--glob=*.cc',
             '--glob=*.cxx',
         })
+        vim.keymap.set('n', '<leader>gb', function()
+            telescope_builtin.live_grep({
+                grep_open_files = true,
+                prompt_title = 'Grep Buffers',
+            })
+        end, { desc = 'Grep Buffers' })
 
         --To look at what default configuration options exist please read: :help telescope.setup().
         --For picker specific opts please read: :help telescope.builtin.

@@ -24,7 +24,7 @@ local M = {
             on_attach = on_attach,
         }
 
-        lspconfig.pyright.setup {
+        lspconfig.pylsp.setup {
             on_attach = on_attach,
         }
 
