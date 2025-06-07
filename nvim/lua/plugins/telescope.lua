@@ -50,6 +50,7 @@ return {
         vim.keymap.set('n', '<leader>fp', telescope_builtin.man_pages, {})
         vim.keymap.set('n', '<leader>fm', telescope_builtin.marks, {})
         vim.keymap.set('n', '<leader>fk', telescope_builtin.keymaps, {})
+        vim.keymap.set('n', '<leader>fl', telescope_builtin.resume, {})
 
         vim.keymap.set('n', '<leader>ft', function()
             vim.cmd(":Telescope builtin")
