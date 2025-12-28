@@ -1,2 +1,5 @@
 .git
 .DS_Store
+.zsh_history
+.zsh_sessions
+.zprofile
