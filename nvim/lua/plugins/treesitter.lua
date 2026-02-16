@@ -1,10 +1,12 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    branch = 'master',
     build = function()
         require("nvim-treesitter.install").update({ with_sync = true })()
     end,
     dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects'
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        branch = 'master',
     },
     config = function()
         local config = require "nvim-treesitter.configs"

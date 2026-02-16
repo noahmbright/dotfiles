@@ -36,16 +36,23 @@ end
 
 function set_statusline_highlights()
     local statusline = vim.api.nvim_get_hl(0, { name = 'StatusLine' })
+    local comment = vim.api.nvim_get_hl(0, { name = 'Comment' })
+
     vim.api.nvim_set_hl(0, 'StatusLineMode', {
         fg = statusline.bg,
         bg = statusline.fg,
         bold = false
     })
 
-    local visual = vim.api.nvim_get_hl(0, { name = 'Comment' })
     vim.api.nvim_set_hl(0, 'StatusLineGit', {
-        fg = visual.bg,
-        bg = visual.fg,
+        fg = comment.bg,
+        bg = comment.fg,
+        bold = false
+    })
+
+    vim.api.nvim_set_hl(0, 'StatusLineMain', {
+        fg = statusline.fg,
+        bg = statusline.bg,
         bold = false
     })
 end
@@ -55,7 +62,7 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, { callback = set_stat
 vim.o.statusline = table.concat({
     '%#StatusLineMode#', '%{v:lua.GetVimMode()}',
     '%#StatusLineGit#', ' %{v:lua.get_git_branch_string()} ',
-    '%#Normal#', ' %F',
+    '%#StatusLineMain#', ' %F',
     '%m',
     '%r',
     '%w',

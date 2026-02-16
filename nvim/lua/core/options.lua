@@ -1,8 +1,8 @@
 -- See `:help vim.opt`
 --  For more options, you can see `:help option-list`
--- vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.number = true
+vim.opt.swapfile = false
 vim.opt.mouse = 'a'
 vim.opt.showmode = false
 vim.opt.clipboard = 'unnamedplus' --  See `:help 'clipboard'`
