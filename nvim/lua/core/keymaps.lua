@@ -109,6 +109,81 @@ vim.keymap.set('n', '<leader>lnd',
 
 vim.keymap.set('n', '<leader>yb', '_v$%y', { desc = 'Yank Block on this line' })
 
+-- git diff current file vs HEAD
+local function git_diff_current_file()
+    local filepath = vim.fn.expand('%')
+    if filepath == '' then
+        print('No file in current buffer')
+        return
+    end
+
+    -- quotes the path for safe shell use (handles spaces, special chars)
+    local escaped = vim.fn.shellescape(filepath)
+    local raw_output = vim.fn.system('git ls-files --full-name ' .. escaped)
+
+    -- gsub replaces all occurrences; strips trailing newline system() appends
+    local git_path = raw_output:gsub('\n', '')
+    if git_path == '' then
+        print('File ' .. filepath .. ' is not tracked by git')
+        return
+    end
+
+    -- git show prints a git object's contents
+    -- HEAD:<path> means the version of <path> at the most recent commit
+    local content = vim.fn.systemlist('git show HEAD:' .. vim.fn.shellescape(git_path))
+
+    -- exit code of last shell command
+    if vim.v.shell_error ~= 0 then
+        print('No HEAD version found (new or untracked file?)')
+        return
+    end
+
+    local ft = vim.bo.filetype
+
+    local stale = vim.fn.bufnr('HEAD:' .. git_path) -- bufnr() returns handle by name, -1 if not found
+    if stale ~= -1 then vim.api.nvim_buf_delete(stale, { force = true }) end
+
+    local head_buf = vim.api.nvim_create_buf(false, true)       -- (listed=false, scratch=true)
+    vim.api.nvim_buf_set_lines(head_buf, 0, -1, false, content) -- 0,-1 replaces all lines
+    vim.bo[head_buf].buftype = 'nofile'
+    vim.bo[head_buf].bufhidden = 'wipe'
+    vim.bo[head_buf].swapfile = false
+    vim.bo[head_buf].modifiable = false
+    vim.bo[head_buf].filetype = ft
+    vim.api.nvim_buf_set_name(head_buf, 'HEAD:' .. git_path)
+
+    vim.cmd('tabnew')
+    vim.t.is_git_diff = true -- tab-local flag; vim.t scopes to the current tabpage
+    vim.cmd('edit ' .. vim.fn.fnameescape(filepath))
+
+    vim.cmd('leftabove vsplit')
+    local head_win = vim.api.nvim_get_current_win()
+    vim.api.nvim_win_set_buf(head_win, head_buf)
+    vim.cmd('diffthis')
+
+    vim.cmd('wincmd l') -- move to right window (working file)
+    vim.cmd('diffthis')
+end
+
+vim.keymap.set('n', '<leader>gd', git_diff_current_file, { noremap = true, desc = 'Git diff current file vs HEAD' })
+
+local function git_diff_close()
+    if not vim.t.is_git_diff then
+        print('Not in a git diff tab')
+        return
+    end
+    local tabpage = vim.api.nvim_get_current_tabpage()
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.api.nvim_buf_get_name(buf):match('^HEAD:') then
+            vim.api.nvim_buf_delete(buf, { force = true }) -- explicit delete; don't rely on bufhidden
+        end
+    end
+    vim.cmd('tabclose')
+end
+
+vim.keymap.set('n', '<leader>gD', git_diff_close, { noremap = true, desc = 'Close git diff tab' })
+
 local num_scratch_buffers = 0
 vim.api.nvim_create_user_command('Scratch', function()
         vim.cmd('enew')
