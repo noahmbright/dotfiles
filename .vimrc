@@ -1,4 +1,7 @@
+syntax on
+filetype plugin indent on
 colorscheme habamax
+set noswapfile
 set relativenumber
 set number
 let mapleader = " "
@@ -8,6 +11,13 @@ set laststatus=2
 set statusline = ""
 set statusline+=%f
 set statusline+=\ %m
+
+"""""""""""" SEARCH """"""""""""
+noremap n nzz
+noremap N Nzz
+
+"""""""""""" NETRW """"""""""""
+noremap <Leader>pv :Ex<CR>
 
 """""""""""" WINDOWS """"""""""""
 " all CTRL-W normal mode commands can be executed with :wincmd
@@ -34,7 +44,7 @@ noremap <Leader>sv <C-w>n
 
 """""""""""" AUTOCOMMANDS """"""""""""
 
-" open help windows in a vertial split on the right side of the screen
+" open help windows in a vertical split on the right side of the screen
 augroup vimrc_help
   autocmd!
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif

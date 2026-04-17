@@ -45,7 +45,11 @@ vim.api.nvim_set_keymap('n', '<S-Down>', ':resize -2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<S-Left>', ':vertical resize +2<CR>', opts)
 vim.api.nvim_set_keymap('n', '<S-Right>', ':vertical resize -2<CR>', opts)
 
-vim.keymap.set('n', '<leader>bd', ':bp | sp | bn | bd<CR>', { desc = "delete buffer split w/o closing split" })
+vim.keymap.set('n', '<leader>bd', function()
+    local name = vim.api.nvim_buf_get_name(0)
+    vim.cmd('bp | sp | bn | bd')
+    print("deleted buffer " .. (name ~= "" and name or "[No Name]"))
+end, { desc = "delete buffer split w/o closing split" })
 
 vim.keymap.set('n', 'x', '\"_x')
 

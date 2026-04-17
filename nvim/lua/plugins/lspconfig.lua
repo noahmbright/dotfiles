@@ -51,6 +51,7 @@ local M = {
             init_options = {
                 hostInfo = "neovim",
             },
+            on_attach = on_attach,
         }
 
         vim.lsp.enable({ 'tsserver', 'rust_analyzer', 'pylsp', 'lua_ls', 'clangd' })

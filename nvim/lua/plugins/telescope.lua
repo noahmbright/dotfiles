@@ -27,6 +27,13 @@ return {
         }
 
         require('telescope').setup {
+            defaults = {
+                mappings = {
+                    i = {
+                        ["<C-f>"] = require('telescope.actions').to_fuzzy_refine,
+                    }
+                }
+            },
             pickers = {
                 find_files = theme_settings,
                 live_grep = theme_settings,

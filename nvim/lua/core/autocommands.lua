@@ -14,7 +14,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.api.nvim_create_autocmd("BufWrite", {
     desc = "format on write",
     callback = function()
-        vim.lsp.buf.format()
+        local ok, err = pcall(vim.lsp.buf.format)
+        if not ok then
+            vim.notify(err, vim.log.levels.WARN)
+        end
     end
 })
 
