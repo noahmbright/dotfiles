@@ -65,6 +65,10 @@ vim.keymap.set('n', "<C-u>", "<C-u>zz")
 vim.keymap.set('n', "n", "nzzzv")
 vim.keymap.set('n', "N", "Nzzzv")
 
+vim.keymap.set('n', '*', function()
+    vim.fn.setreg('/', '\\<' .. vim.fn.expand('<cword>') .. '\\>')
+end)
+
 vim.keymap.set('x', "<leader>P", "\"_dP")
 
 vim.api.nvim_set_keymap('n', '<leader>pf', ':w | :! python3 "%:p"<Enter>',
