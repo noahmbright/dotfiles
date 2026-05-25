@@ -27,5 +27,42 @@ vim.api.nvim_create_autocmd('BufDelete', {
     end
 })
 
+local function open_git_conflicts()
+    -- --diff-filter=U: restrict to Unmerged files, i.e. those with conflict markers
+    local files = vim.fn.systemlist('git diff --name-only --diff-filter=U 2>/dev/null')
+    -- vim.v.shell_error: exit code of the last shell command; nonzero means git failed (not in a repo, etc.)
+    -- #files: Lua's length operator on a table
+    if vim.v.shell_error ~= 0 or #files == 0 then
+        print('No merge conflicts found')
+        return
+    end
+
+    -- shellescape each path and join so grep gets one invocation across all files
+    -- -n: prefix matches with line number; -H: always include filename (needed when only one file)
+    local escaped = table.concat(vim.tbl_map(vim.fn.shellescape, files), ' ')
+    local matches = vim.fn.systemlist('grep -nH "^<<<<<<<" ' .. escaped)
+    if #matches == 0 then
+        print('Conflict files found but no markers — try :edit on each file')
+        return
+    end
+
+    local qf_items = {}
+    for _, match in ipairs(matches) do
+        -- grep output: "path/to/file:42:<<<<<<< HEAD"
+        -- (.-)  lazy match so the first : splits filename from lnum (handles paths with colons)
+        local file, lnum = match:match('^(.-)%:(%d+)%:')
+        if file and lnum then
+            table.insert(qf_items, { filename = file, lnum = tonumber(lnum), text = 'Conflict' })
+        end
+    end
+
+    vim.fn.setqflist(qf_items)
+    vim.cmd('copen')
+    vim.cmd('cfirst')
+end
+
+vim.api.nvim_create_user_command('GitConflicts', open_git_conflicts, { desc = 'Open git conflict markers in quickfix' })
+vim.keymap.set('n', '<leader>gc', open_git_conflicts, { noremap = true, desc = 'Open git conflicts in quickfix' })
+
 M.get_git_branch_string = get_git_branch_string
 return M

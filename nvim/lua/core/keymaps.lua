@@ -117,6 +117,9 @@ vim.keymap.set('n', '<leader>lnd',
 
 vim.keymap.set('n', '<leader>yb', '_v$%y', { desc = 'Yank Block on this line' })
 
+vim.keymap.set('n', ']q', '<cmd>cnext<CR>zz', { noremap = true, desc = 'Next quickfix item' })
+vim.keymap.set('n', '[q', '<cmd>cprev<CR>zz', { noremap = true, desc = 'Prev quickfix item' })
+
 -- git diff current file vs HEAD
 local function git_diff_current_file()
     local filepath = vim.fn.expand('%')
