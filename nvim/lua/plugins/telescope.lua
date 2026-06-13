@@ -77,6 +77,12 @@ return {
             end,
             { desc = 'grep under word' }
         )
+        vim.keymap.set('x', '<leader>guw', function()
+                local sel = table.concat(vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.')), ' ')
+                telescope_builtin.live_grep({ default_text = sel })
+            end,
+            { desc = 'grep selection' }
+        )
 
         local function make_grep_keymaps(filetype, table_to_glob)
             local lowercase_first_char = filetype:sub(1, 1):lower()
@@ -88,6 +94,16 @@ return {
                     })
                 end,
                 { desc = 'grep under ' .. filetype }
+            )
+            vim.keymap.set('x', '<leader>gu' .. lowercase_first_char, function()
+                    local sel = table.concat(vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.')), ' ')
+                    telescope_builtin.live_grep({
+                        default_text = sel,
+                        prompt_title = 'Grep ' .. filetype,
+                        additional_args = table_to_glob,
+                    })
+                end,
+                { desc = 'grep selection ' .. filetype }
             )
 
             vim.keymap.set('n', '<leader>g' .. lowercase_first_char, function()
