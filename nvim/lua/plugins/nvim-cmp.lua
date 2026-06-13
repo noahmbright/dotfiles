@@ -14,6 +14,29 @@ return {
         local luasnip = require 'luasnip'
         luasnip.config.setup {}
 
+        -- When true, C++ stdlib suggestions (items that would auto-insert a non-.h system header) are shown.
+        -- Toggle with <leader>cs in any buffer.
+        vim.g.cmp_cpp_stdlib = false
+
+        vim.keymap.set('n', '<leader>cs', function()
+            vim.g.cmp_cpp_stdlib = not vim.g.cmp_cpp_stdlib
+            print('C++ stdlib completions: ' .. (vim.g.cmp_cpp_stdlib and 'shown' or 'hidden'))
+        end, { desc = 'Toggle C++ stdlib completions' })
+
+        -- Returns true if this completion item would auto-insert a C++ stdlib header.
+        -- C headers always end in .h (<stdio.h>); C++ stdlib headers never do (<vector>).
+        local function is_cpp_stdlib_item(item)
+            if not item.additionalTextEdits then return false end
+            for _, edit in ipairs(item.additionalTextEdits) do
+                local new_text = edit.newText or ''
+                -- matches "#include <something>" where something has no .h suffix
+                if new_text:match('#include <[^>]+>') and not new_text:match('#include <[^>]+%.h>') then
+                    return true
+                end
+            end
+            return false
+        end
+
         cmp.setup({
             snippet = {
                 expand = function(args)
@@ -44,7 +67,13 @@ return {
                 end, { 'i', 's' }),
             }),
             sources = cmp.config.sources({
-                { name = 'nvim_lsp' },
+                {
+                    name = 'nvim_lsp',
+                    entry_filter = function(entry)
+                        if vim.g.cmp_cpp_stdlib then return true end
+                        return not is_cpp_stdlib_item(entry:get_completion_item())
+                    end,
+                },
                 { name = 'luasnip' },
             }, {
                 { name = 'buffer' },
