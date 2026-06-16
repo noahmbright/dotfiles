@@ -15,6 +15,11 @@ local M = {
     "neovim/nvim-lspconfig",
 
     config = function()
+        local float_opts = { border = 'rounded', max_width = 80 }
+        vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, float_opts)
+        vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, float_opts)
+        vim.diagnostic.config({ float = float_opts })
+
         vim.lsp.config['rust_analyzer'] = {
             on_attach = on_attach,
         }

@@ -48,7 +48,8 @@ return {
                 local conf = require('telescope.config').values
 
                 vim.schedule(function()
-                    require('telescope.pickers').new(require('telescope.themes').get_ivy({ layout_config = { height = 0.9 } }), {
+                    require('telescope.pickers').new(
+                    require('telescope.themes').get_ivy({ layout_config = { height = 0.9 } }), {
                         prompt_title = 'Filter matches by filename  |  <C-s> to return',
                         -- ordinal is filename only, so typing filters by file rather than match content
                         finder = require('telescope.finders').new_table {
@@ -56,7 +57,8 @@ return {
                             entry_maker = function(e)
                                 return {
                                     value = e.value,
-                                    display = vim.fn.fnamemodify(e.filename, ':~:.') .. ':' .. e.lnum .. ': ' .. (e.text or ''),
+                                    display = vim.fn.fnamemodify(e.filename, ':~:.') ..
+                                    ':' .. e.lnum .. ': ' .. (e.text or ''),
                                     ordinal = e.filename,
                                     path = e.filename,
                                     lnum = e.lnum,

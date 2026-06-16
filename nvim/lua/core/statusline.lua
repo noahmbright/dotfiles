@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd({ 'VimEnter', 'ColorScheme' }, { callback = set_stat
 vim.o.statusline = table.concat({
     '%#StatusLineMode#', '%{v:lua.GetVimMode()}',
     '%#StatusLineGit#', ' %{v:lua.get_git_branch_string()} ',
-    '%#StatusLineMain#', ' %F',
+    '%#StatusLineMain#', ' %f',
     '%m',
     '%r',
     '%w',
