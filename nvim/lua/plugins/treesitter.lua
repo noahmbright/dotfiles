@@ -4,27 +4,13 @@ return {
     build = function()
         require("nvim-treesitter.install").update({ with_sync = true })()
     end,
-    dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        branch = 'master',
-    },
     config = function()
-        local config = require "nvim-treesitter.configs"
-        config.setup({
+        require("nvim-treesitter.configs").setup({
             ensure_installed = { 'c', 'cpp', 'python', 'glsl', 'rust' },
             sync_install = false,
             auto_install = false,
             highlight = { enable = true },
             additional_vim_regex_highlighting = false,
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = "<Leader>is", -- set to `false` to disable one of the mappings
-                    node_incremental = "<Leader>ns",
-                    scope_incremental = "<Leader>ss",
-                    node_decremental = "<Leader>ds",
-                },
-            },
         })
     end
 }

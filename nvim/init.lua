@@ -6,7 +6,7 @@ vim.g.have_nerd_font = true
 local core = require("core")
 require("plugins")
 
-vim.cmd("colorscheme kanagawa")
+vim.cmd("colorscheme catppuccin-mocha")
 require("core.statusline").set_statusline_highlights()
 _G.cached_mode = string.format(' Normal ')
 
