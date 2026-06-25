@@ -195,6 +195,7 @@ return {
             )
         end
 
+        make_grep_keymaps("Verilog", { '--glob=*.v' })
         make_grep_keymaps("Python", { '--glob=*.py' })
         make_grep_keymaps("Lua", { '--glob=*.lua' })
         make_grep_keymaps("Headers", { '--glob=*.h', '--glob=*.hpp' })
