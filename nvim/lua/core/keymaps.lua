@@ -1,5 +1,34 @@
 local opts = { noremap = true, silent = true }
 
+-- Open man page for word under cursor in a floating window.
+-- Buffer-local LSP mappings (set in on_attach) take precedence over this in LSP buffers.
+vim.keymap.set('n', 'K', function()
+    local word = vim.fn.expand('<cword>')
+    local output = vim.fn.systemlist('man ' .. vim.fn.shellescape(word) .. ' 2>/dev/null | col -bx')
+    if vim.v.shell_error ~= 0 or #output == 0 then
+        vim.notify('No man page for: ' .. word, vim.log.levels.WARN)
+        return
+    end
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
+    vim.bo[buf].buftype    = 'nofile'
+    vim.bo[buf].bufhidden  = 'wipe'
+    vim.bo[buf].modifiable = false
+    local width            = math.min(math.floor(vim.o.columns * 0.8), 100)
+    local height           = math.min(#output, math.floor(vim.o.lines * 0.8))
+    vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width    = width,
+        height   = height,
+        row      = math.floor((vim.o.lines - height) / 2),
+        col      = math.floor((vim.o.columns - width) / 2),
+        border   = 'rounded',
+        style    = 'minimal',
+    })
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = buf, nowait = true })
+    vim.keymap.set('n', '<Esc>', '<cmd>close<cr>', { buffer = buf })
+end)
+
 vim.keymap.set('n', "<leader>pv", vim.cmd.Ex)
 
 -- [[ Setting options ]]
@@ -205,3 +234,23 @@ vim.api.nvim_create_user_command('Scratch', function()
         num_scratch_buffers = num_scratch_buffers + 1
     end,
     { desc = 'Open a new scratch buffer' })
+
+vim.api.nvim_create_user_command("MtlHeader", function()
+    local base = vim.fn.expand("%:t:r") -- current file basename, no extension
+    local sdk = vim.fn.trim(vim.fn.system("xcrun --show-sdk-path"))
+    local matches = vim.fn.globpath(
+        sdk .. "/System/Library/Frameworks",
+        "*/Headers/" .. base .. ".h",
+        false,
+        true
+    )
+
+    if #matches == 0 then
+        vim.notify("No Obj-C header found for " .. base, vim.log.levels.WARN)
+        return
+    end
+
+    vim.cmd("vsplit " .. vim.fn.fnameescape(matches[1]))
+end, {})
+
+vim.keymap.set("n", "<leader>mh", ":MtlHeader<CR>", { desc = "Open Obj-C header for current metal-cpp file" })

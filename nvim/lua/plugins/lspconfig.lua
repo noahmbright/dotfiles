@@ -52,14 +52,14 @@ local M = {
             },
         }
 
-        vim.lsp.config['tsserver'] = {
+        vim.lsp.config['ts_ls'] = {
             init_options = {
                 hostInfo = "neovim",
             },
             on_attach = on_attach,
         }
 
-        vim.lsp.enable({ 'tsserver', 'rust_analyzer', 'pylsp', 'lua_ls', 'clangd' })
+        vim.lsp.enable({ 'ts_ls', 'rust_analyzer', 'pylsp', 'lua_ls', 'clangd' })
     end
 }
 
