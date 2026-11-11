@@ -95,7 +95,9 @@ vim.keymap.set('n', "n", "nzzzv")
 vim.keymap.set('n', "N", "Nzzzv")
 
 vim.keymap.set('n', '*', function()
-    vim.fn.setreg('/', '\\<' .. vim.fn.expand('<cword>') .. '\\>')
+    local pat = '\\<' .. vim.fn.expand('<cword>') .. '\\>'
+    vim.fn.setreg('/', pat)
+    vim.fn.histadd('search', pat) -- makes it reachable via / then <Up>
 end)
 
 vim.keymap.set('x', "<leader>P", "\"_dP")
